@@ -1,4 +1,4 @@
-import { HashRouter, NavLink, Routes, Route, useNavigate } from 'react-router-dom';
+import { HashRouter, NavLink, Routes, Route, useNavigate, Outlet, useParams } from 'react-router-dom';
 
 
 const Todo = () => {
@@ -23,6 +23,18 @@ const NotThing = () => {
     <p>There's nothing here!</p>
   </main>;
 };
+export const Post = () => {
+  return <>
+    <p>這是 Post 詳細頁面</p>
+    <p className='border-bottom'>上面是父框架</p>
+    <Outlet/>
+  </>;
+};
+export const PostPage = () => {
+  let params = useParams();
+  return <><p>這是 Post 子頁面</p>
+  <p>Post ID： {params.postId}</p></>
+};
 
 
 
@@ -43,6 +55,9 @@ function App() {
           <NavLink className="nav-link" to="/todo">
             <p>Todo 頁面</p>
           </NavLink>
+          <NavLink className="nav-link" to="/post">
+            <p>Post 詳細頁面</p>
+          </NavLink>
         </div>
         {/* Routes, Route 練習區 */}
         <Routes>
@@ -50,6 +65,9 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="todo" element={<Todo />} />
+          <Route path="post" element={<Post />}>
+            <Route path=":postId" element={<PostPage />} />
+          </Route>
           <Route path="*" element={<NotThing />} />
         </Routes>
 
